@@ -55,22 +55,28 @@ def main() -> None:
     pixel = img.getpixel(centre)
     print(f"Pixel value at centre: {pixel}")
 
+    ratios: list[float] = []
+
     for length in range(3, max_side_length + 1, 2):
         box = (
             centre[0] - length // 2,
             centre[1] - length // 2,
-            centre[0] + length // 2,
-            centre[1] + length // 2,
+            centre[0] + length // 2 + 1,
+            centre[1] + length // 2 + 1,
         )
         print(f"Size: {length} Box: {box}")
         region = img.crop(box)
         region_data = list(region.getdata())
         print(f"Region data length: {len(region_data)}")
         print(f"Region size: {region.size}")
-        print(f"Region data: {region_data}")
+        # print(f"Region data: {region_data}")
         print(f"len^2: {length**2}")
         assert len(region_data) == length**2
-        # print(region_data)
+        num_zeros = region_data.count(0)
+        ratio = num_zeros / (length**2)
+        ratios.append(ratio)
+
+    print(f"Ratios: {ratios}")
 
 
 if __name__ == "__main__":
